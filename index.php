@@ -182,7 +182,7 @@ require_once __DIR__ . '/config.php';
                     <div class="video-wrapper">
                         <!-- Reproductor de video moderno -->
                         <video controls poster="IMG_SOLUCIONES.jpg" class="custom-video">
-                            <source src="celumojado.mp4" type="video/mp4">
+                            <source src="nosotros.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de este video.
                         </video>
                     </div>
