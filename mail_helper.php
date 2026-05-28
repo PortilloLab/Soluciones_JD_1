@@ -66,7 +66,8 @@ function send_email($to, $subject, $message_html, $from_email = null, $from_name
         smtp_read_response($socket, 220);
 
         // Enviar EHLO inicial
-        fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
+        $server_name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost';
+        fwrite($socket, "EHLO " . $server_name . "\r\n");
         smtp_read_response($socket, 250);
 
         // Si es puerto 587 (TLS), negociar cifrado seguro
@@ -86,7 +87,8 @@ function send_email($to, $subject, $message_html, $from_email = null, $from_name
             }
 
             // Volver a enviar EHLO bajo conexión segura
-            fwrite($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
+            $server_name = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost';
+            fwrite($socket, "EHLO " . $server_name . "\r\n");
             smtp_read_response($socket, 250);
         }
 
@@ -153,13 +155,15 @@ function send_email($to, $subject, $message_html, $from_email = null, $from_name
  */
 function smtp_read_response($socket, $expected_code) {
     $response = '';
-    while (substr($response, 3, 1) !== ' ') {
+    $line = '';
+    do {
         $line = fgets($socket, 512);
         if ($line === false) {
             throw new Exception("Error al leer respuesta del servidor SMTP.");
         }
         $response .= $line;
-    }
+    } while (substr($line, 3, 1) === '-');
+    
     $code = (int)substr($response, 0, 3);
     if ($code !== $expected_code) {
         throw new Exception("El servidor SMTP respondió con código inesperado: $response (se esperaba $expected_code)");
