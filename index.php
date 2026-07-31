@@ -25,7 +25,7 @@ require_once __DIR__ . '/config.php';
   <header>
     <div class="container nav-container">
       <a href="#" class="logo" id="logoLink">
-        <div class="logo-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+        <img src="logo_jd.png" alt="Soluciones Informáticas JD" class="logo-img">
         <div class="logo-text">
           <span class="logo-title">Soluciones Informáticas JD</span>
           <span class="logo-subtitle">PortilloLab Enterprise</span>
@@ -310,7 +310,7 @@ require_once __DIR__ . '/config.php';
       <div class="footer-grid">
         <div>
           <div class="logo" style="margin-bottom: 14px;">
-            <div class="logo-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+            <img src="logo_jd.png" alt="Soluciones Informáticas JD" class="logo-img">
             <div class="logo-text">
               <span class="logo-title">Soluciones Informáticas JD</span>
               <span class="logo-subtitle">PortilloLab Enterprise</span>
