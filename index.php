@@ -1,350 +1,360 @@
 <?php
 /**
  * Página de Aterrizaje Pública (Landing Page)
- * Soluciones Informática JD
+ * Soluciones Informática JD & PortilloLab Enterprise
  */
 require_once __DIR__ . '/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Soluciones Informática JD - Soporte y Desarrollo de Redes y Sistemas</title>
-    <!-- Meta tags SEO -->
-    <meta name="description" content="Brindamos soluciones inmediatas en conectividad de redes, seguridad informática, asesoría de sistemas, respaldos de datos y diseño de aplicaciones web.">
-    <meta name="keywords" content="conectividad, redes, soporte tecnico, seguridad informatica, diseño web, backup, antivirus, misiones, soluciones informaticas">
-    
-    <!-- Fuentes de Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Estilos CSS -->
-    <link rel="stylesheet" href="font-awesome.css">
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soluciones Informáticas JD & PortilloLab | Soporte IT, Automatización y Datos</title>
+  <meta name="description" content="Servicios profesionales de soporte IT preventivo, auditoría de infraestructura y gobierno de datos. Creadores de ITAT y DS Guardian.">
+  <link rel="icon" type="image/x-icon" href="favicon_1.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
 </head>
+
 <body>
 
-    <!-- Barra de Navegación -->
-    <header class="main-header" id="header">
-        <div class="header-container">
-            <a href="#inicio" class="logo">
-                <img src="favicon_1.ico" alt="Logo Soluciones Informática JD">
-                <div class="logo-text">
-                    <span class="brand-name">Soluciones Informática JD</span>
-                    <span class="tagline">Soporte Inmediato</span>
-                </div>
-            </a>
-            
-            <button class="mobile-nav-toggle" aria-label="Abrir menú" id="mobile-toggle">
-                <i class="fa fa-bars"></i>
+  <!-- Header & Glass Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logoLink">
+        <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="logo-text">
+          <span class="logo-title">Soluciones JD</span>
+          <span class="logo-subtitle">PortilloLab Enterprise</span>
+        </div>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir Menú">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#inicio" class="nav-link active" id="navInicio">Inicio</a></li>
+        <li><a href="#servicios" class="nav-link" id="navServicios">Servicios MSP</a></li>
+        <li><a href="#herramientas" class="nav-link" id="navHerramientas">Herramientas Propietarias</a></li>
+        <li><a href="#nosotros" class="nav-link" id="navNosotros">Equipo</a></li>
+        <li><a href="#contacto" class="nav-link" id="navContacto">Contacto</a></li>
+        <?php if (isLoggedIn()): ?>
+            <?php if (isAdmin()): ?>
+                <li><a href="admin.php" class="btn btn-primary"><i class="fa-solid fa-user-shield"></i> Panel Admin</a></li>
+            <?php else: ?>
+                <li><a href="dashboard.php" class="btn btn-primary"><i class="fa-solid fa-gauge"></i> Mi Panel</a></li>
+            <?php endif; ?>
+            <li><a href="logout.php" class="btn btn-secondary"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+        <?php else: ?>
+            <li><a href="login.php" class="btn btn-secondary"><i class="fa-solid fa-right-to-bracket"></i> Ingresar</a></li>
+            <li><a href="#contacto" class="btn btn-primary" id="navCTA"><i class="fa-solid fa-stethoscope"></i> Solicitar Auditoría</a></li>
+        <?php endif; ?>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge"><i class="fa-solid fa-bolt"></i> Soporte IT 100% Preventivo & Gobierno de Datos</div>
+        <h1 class="hero-title">Infraestructura IT Estable y Datos Listos para Producción</h1>
+        <p class="hero-subtitle">
+          Protegemos tu empresa contra caídas de sistema, servidores lentos y fugas de datos mediante automatización preventiva y auditorías continuas impulsadas por nuestras propias herramientas: <strong>ITAT</strong> y <strong>DS Guardian</strong>.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#contacto" class="btn btn-primary" id="heroBtnAudit">
+            <i class="fa-solid fa-circle-check"></i> Diagnóstico Inicial Gratuito
+          </a>
+          <a href="#herramientas" class="btn btn-secondary" id="heroBtnTools">
+            <i class="fa-solid fa-code"></i> Conocer ITAT & DS Guardian
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">99.9%</span>
+            <span class="stat-label">Disponibilidad de Servidores</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">&lt; 15 min</span>
+            <span class="stat-label">Respuesta a Incidentes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">Data Leakage en Pipelines</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Terminal / Console Card Preview -->
+      <div class="console-card">
+        <div class="console-header">
+          <div class="console-btn btn-red"></div>
+          <div class="console-btn btn-yellow"></div>
+          <div class="console-btn btn-green"></div>
+          <span class="console-title">portillolab-terminal ~ v2.4</span>
+        </div>
+        <div class="console-body" id="consoleBody">
+          <!-- Dynamic Terminal Content via main.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge"><i class="fa-solid fa-gears"></i> Catálogo de Servicios</div>
+        <h2 class="section-title">Soluciones Integrales para la Empresa Moderna</h2>
+        <p class="section-subtitle">Brindamos cobertura completa desde el mantenimiento físico y lógico de redes hasta la analítica avanzada de datos.</p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card" id="cardMSP">
+          <div class="service-icon"><i class="fa-solid fa-server"></i></div>
+          <h3 class="service-title">Soporte IT & Mantenimiento Preventivo (MSP)</h3>
+          <p class="service-desc">Supervisión continua de servidores Linux/Windows con reparación automática de servicios fuera de línea.</p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Monitoreo de CPU, RAM, Disco y Red 24/7</li>
+            <li><i class="fa-solid fa-check"></i> Autoreparación de MySQL, Nginx, Docker y Power BI</li>
+            <li><i class="fa-solid fa-check"></i> Gestión de Tickets con Helpdesk integrado</li>
+          </ul>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card" id="cardData">
+          <div class="service-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <h3 class="service-title">Auditoría & Gobierno de Datos (DS Guardian)</h3>
+          <p class="service-desc">Aseguramiento de calidad de datos, eliminación de Data Leakage y validación de modelos analíticos.</p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Control de calidad QA previo a entrenamiento ML</li>
+            <li><i class="fa-solid fa-check"></i> Winsorization de outliers sin data leakage</li>
+            <li><i class="fa-solid fa-check"></i> Reportes automatizados en Markdown/PDF</li>
+          </ul>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card" id="cardNet">
+          <div class="service-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <h3 class="service-title">Conectividad & Redes Empresariales</h3>
+          <p class="service-desc">Diseño, instalación y optimización de redes cableadas e inalámbricas de alta disponibilidad.</p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Cableado estructurado y certificación de red</li>
+            <li><i class="fa-solid fa-check"></i> Configuración de Firewalls y VPNs seguras</li>
+            <li><i class="fa-solid fa-check"></i> Garantía de trabajo sin interrupciones</li>
+          </ul>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card" id="cardDev">
+          <div class="service-icon"><i class="fa-solid fa-laptop-code"></i></div>
+          <h3 class="service-title">Desarrollo Web & Tableros BI a Medida</h3>
+          <p class="service-desc">Creación de aplicaciones web, APIs y tableros interactivos en Power BI para la toma de decisiones.</p>
+          <ul class="service-features">
+            <li><i class="fa-solid fa-check"></i> Interfaces modernas, rápidas y adaptables</li>
+            <li><i class="fa-solid fa-check"></i> Tableros de control ejecutivos en Power BI</li>
+            <li><i class="fa-solid fa-check"></i> Asesoramiento y soporte continuo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Frameworks / Proprietary Tools Showcase -->
+  <section id="herramientas" class="section tools-showcase">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge"><i class="fa-solid fa-microchip"></i> Tecnología Propietaria</div>
+        <h2 class="section-title">Nuestras Plataformas de Automatización</h2>
+        <p class="section-subtitle">A diferencia de otros proveedores, operamos con software propio desarrollado para garantizar la máxima velocidad y precisión.</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- Tool 1: ITAT -->
+        <div class="tool-box" id="boxITAT">
+          <span class="tool-badge">IT Automation</span>
+          <h3 class="tool-title"><i class="fa-solid fa-terminal text-cyan"></i> ITAT Framework</h3>
+          <p class="tool-desc">Toolkit en Python de grado empresarial para inventario en tiempo real, auditoría de políticas de seguridad, reparación asistida por Skills y generación de informes ejecutivos HTML Dark-Mode.</p>
+          <a href="https://github.com/PortilloLab/it-automation-toolkit" target="_blank" class="btn btn-secondary" id="btnGithubITAT">
+            <i class="fa-brands fa-github"></i> Ver Repositorio ITAT
+          </a>
+        </div>
+
+        <!-- Tool 2: DS Guardian -->
+        <div class="tool-box" id="boxDSGuardian">
+          <span class="tool-badge">Data Governance</span>
+          <h3 class="tool-title"><i class="fa-solid fa-shield-virus text-emerald"></i> DS Guardian</h3>
+          <p class="tool-desc">Marco de trabajo especializado en calidad de datos y machine learning. Detecta fugas de información, limpia nulos/duplicados con aislamiento train-test y genera reportes técnicos de auditoría.</p>
+          <a href="https://github.com/PortilloLab/ds_guardian" target="_blank" class="btn btn-secondary" id="btnGithubDSG">
+            <i class="fa-brands fa-github"></i> Ver Repositorio DS Guardian
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section id="nosotros" class="section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="badge"><i class="fa-solid fa-users"></i> Quienes Somos</div>
+        <h2 class="section-title">El Equipo Detrás de Soluciones JD</h2>
+        <p class="section-subtitle">Profesionales apasionados por la tecnología, la educación y la seguridad informática.</p>
+      </div>
+
+      <div class="team-grid">
+        <!-- Member 1 -->
+        <div class="team-card" id="teamJose">
+          <div class="team-avatar"><i class="fa-solid fa-user-gear"></i></div>
+          <h3 class="team-name">José Daniel Portillo</h3>
+          <p class="team-role">Fundador & Especialista en Sistemas e IA/Datos</p>
+          <p class="team-bio">Técnico Especializado en Sistemas de Computadoras, Programación y Profesor ETP. Creador de ITAT y DS Guardian.</p>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="team-card" id="teamSergio">
+          <div class="team-avatar"><i class="fa-solid fa-user-shield"></i></div>
+          <h3 class="team-name">Sergio Duarte</h3>
+          <p class="team-role">Licenciado en Seguridad Informática</p>
+          <p class="team-bio">Especialista en hardenning de servidores, análisis de vulnerabilidades y seguridad de redes corporativas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contacto" class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <div class="badge"><i class="fa-solid fa-paper-plane"></i> Contacto Directo</div>
+          <h2 class="section-title">¿Listo para Proteger tu Infraestructura?</h2>
+          <p class="section-subtitle" style="text-align: left;">Solicita tu diagnóstico e inventario inicial sin costo. Evaluaremos el estado de tus servidores y datos.</p>
+
+          <div class="contact-info-list">
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+              <div>
+                <strong>Teléfono / WhatsApp:</strong>
+                <p class="text-cyan">3764 - 393390</p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+              <div>
+                <strong>Correo Electrónico:</strong>
+                <p class="text-cyan">jsdnlportillo@gmail.com</p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <strong>Ubicación:</strong>
+                <p class="text-muted">Posadas, Misiones, Argentina (Servicios Remotos Globales)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+          <form id="auditForm" action="procesar_contacto.php" method="POST">
+            <div class="form-group">
+              <label for="formName" class="form-label">Nombre Completo / Empresa</label>
+              <input type="text" id="formName" name="nombre" class="form-input" placeholder="Ej. Carlos Gómez - Empresa X" required>
+            </div>
+
+            <div class="form-group">
+              <label for="formEmail" class="form-label">Correo Electrónico</label>
+              <input type="email" id="formEmail" name="email" class="form-input" placeholder="carlos@empresa.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="formService" class="form-label">Servicio de Interés</label>
+              <select id="formService" name="servicio" class="form-select">
+                <option value="Auditoría Preventiva ITAT">Auditoría Preventiva ITAT (Soporte IT)</option>
+                <option value="Auditoría de Datos DS Guardian">Auditoría & Gobierno de Datos (DS Guardian)</option>
+                <option value="Conectividad y Redes">Conectividad, Firewalls y Redes</option>
+                <option value="Desarrollo Web / Power BI">Desarrollo Web / Tableros Power BI</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="formMessage" class="form-label">Mensaje o Detalle del Requerimiento</label>
+              <textarea id="formMessage" name="mensaje" class="form-textarea" rows="4" placeholder="Cuéntanos brevemente sobre la infraestructura de tu empresa..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;" id="btnSubmitForm">
+              <i class="fa-solid fa-paper-plane"></i> Enviar Solicitud de Auditoría
             </button>
-            
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="#inicio" class="active">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <?php if (isLoggedIn()): ?>
-                        <?php if (isAdmin()): ?>
-                            <a href="admin.php" class="btn btn-secondary btn-sm"><i class="fa fa-user-shield"></i> Panel Admin</a>
-                        <?php else: ?>
-                            <a href="dashboard.php" class="btn btn-primary btn-sm"><i class="fa fa-dashboard"></i> Mi Panel</a>
-                        <?php endif; ?>
-                        <a href="logout.php" class="btn btn-outline btn-sm"><i class="fa fa-sign-out"></i> Salir</a>
-                    <?php else: ?>
-                        <a href="login.php" class="btn btn-outline btn-sm"><i class="fa fa-sign-in"></i> Ingresar</a>
-                        <a href="register.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus"></i> Registrarse</a>
-                    <?php endif; ?>
-                </div>
-            </nav>
+            <div id="formResponse" style="display: none;"></div>
+          </form>
         </div>
-    </header>
+      </div>
+    </div>
+  </section>
 
-    <!-- Sección Hero -->
-    <section class="hero-section" id="inicio">
-        <div class="hero-background-overlay"></div>
-        <div class="hero-container">
-            <div class="hero-content">
-                <span class="hero-badge"><i class="fa fa-check-circle"></i> Disponibilidad y Soporte Técnico</span>
-                <h1>¿Buscas soluciones inmediatas en sistemas?<br><span class="highlight">Aquí las encontrarás.</span></h1>
-                <p>Nos especializamos en brindar soporte de redes, seguridad corporativa, administración de servidores, copias de seguridad de datos y desarrollo web para garantizar que su negocio nunca se detenga.</p>
-                <div class="hero-actions">
-                    <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asistencia <i class="fa fa-chevron-right"></i></a>
-                    <a href="#servicios" class="btn btn-outline btn-lg">Ver Nuestros Servicios</a>
-                </div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo" style="margin-bottom: 14px;">
+            <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="logo-text">
+              <span class="logo-title">Soluciones JD</span>
+              <span class="logo-subtitle">PortilloLab Enterprise</span>
             </div>
+          </div>
+          <p class="text-muted">Servicios de Soporte IT Preventivo, Automatización de Infraestructura y Gobierno de Datos.</p>
+          <div class="footer-socials">
+            <a href="https://www.linkedin.com/in/jos%C3%A9-daniel-portillo-84657025/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://github.com/PortilloLab" target="_blank" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.facebook.com/harsoftec/" target="_blank" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/#reactivated" target="_blank" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
         </div>
-    </section>
 
-    <!-- Sección de Servicios -->
-    <section class="services-section" id="servicios">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Nuestros Servicios Profesionales</h2>
-                <div class="line"></div>
-                <p>Ofrecemos un catálogo integral de servicios tecnológicos diseñados para adaptar su empresa a la era digital con total tranquilidad.</p>
-            </div>
-            
-            <div class="services-grid">
-                <!-- Conectividad -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-wifi"></i>
-                    </div>
-                    <h3>Conectividad</h3>
-                    <p>Nada es más importante que la conectividad en un sistema informático. Nos especializamos en la planificación, instalación y mantenimiento de redes por cable e inalámbricas (WiFi), garantizando estabilidad total las 24 horas.</p>
-                </div>
-
-                <!-- Asesoría y Soporte -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-support"></i>
-                    </div>
-                    <h3>Asesoría y Soporte</h3>
-                    <p>Brindamos consultoría y soporte técnico durante toda la semana. Solo debe comunicarse, explicarnos el problema que presenta y a la brevedad nuestro equipo técnico acudirá o se conectará de manera remota para resolverlo.</p>
-                </div>
-
-                <!-- Escalabilidad -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-line-chart"></i>
-                    </div>
-                    <h3>Escalabilidad</h3>
-                    <p>Es esencial que una empresa logre adaptarse al cambio tecnológico constante. Nosotros diseñamos e implementamos mejoras progresivas asegurando que cada inversión mantenga y multiplique su valor en el tiempo.</p>
-                </div>
-
-                <!-- Desarrollo Web -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-code"></i>
-                    </div>
-                    <h3>Diseño y Desarrollo</h3>
-                    <p>Contamos con profesionales preparados para el desarrollo de páginas web y aplicaciones a medida. Facilitamos que exponga y venda sus servicios de manera óptima, acompañándolo y asesorándolo en todo el ciclo de vida.</p>
-                </div>
-
-                <!-- Resguardo de Datos -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-database"></i>
-                    </div>
-                    <h3>Backup y Resguardo</h3>
-                    <p>En cualquier sistema de información, lo más valioso son los datos. Garantizamos el resguardo de su información crítica a través de copias de seguridad automáticas y seguras, tanto locales como en la nube, durante todo el año.</p>
-                </div>
-
-                <!-- ITAT Framework -->
-                <div class="service-card" style="border: 1px solid rgba(6, 182, 212, 0.4);">
-                    <div class="service-icon" style="color: #06b6d4;">
-                        <i class="fa fa-terminal"></i>
-                    </div>
-                    <h3>Soporte ITAT (IT Automation)</h3>
-                    <p>Monitoreo preventivo 24/7 y autoreparación automática de servicios (MySQL, Nginx, Docker y Power BI) impulsado por nuestro framework propietario <strong>ITAT</strong>.</p>
-                </div>
-
-                <!-- DS Guardian -->
-                <div class="service-card" style="border: 1px solid rgba(16, 185, 129, 0.4);">
-                    <div class="service-icon" style="color: #10b981;">
-                        <i class="fa fa-shield"></i>
-                    </div>
-                    <h3>Auditoría de Datos (DS Guardian)</h3>
-                    <p>Protección contra Data Leakage, control de calidad QA de datasets e informes analíticos automatizados impulsados por nuestro marco de trabajo <strong>DS Guardian</strong>.</p>
-                </div>
-
-                <!-- Ciberseguridad -->
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fa fa-lock"></i>
-                    </div>
-                    <h3>Firewalls y Antivirus</h3>
-                    <p>Protegemos la integridad de su infraestructura tecnológica contra amenazas cibernéticas. Implementamos firewalls perimetrales, sistemas antivirus corporativos de última generación y políticas estrictas de control de accesos.</p>
-                </div>
-            </div>
+        <div>
+          <h4 style="color: #fff; margin-bottom: 16px;">Enlaces Rápidos</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            <li><a href="#inicio" class="text-muted" style="text-decoration: none;">Inicio</a></li>
+            <li><a href="#servicios" class="text-muted" style="text-decoration: none;">Servicios MSP</a></li>
+            <li><a href="#herramientas" class="text-muted" style="text-decoration: none;">ITAT & DS Guardian</a></li>
+            <li><a href="#contacto" class="text-muted" style="text-decoration: none;">Contacto</a></li>
+          </ul>
         </div>
-    </section>
 
-    <!-- Sección Sobre Nosotros -->
-    <section class="about-section" id="nosotros">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Sobre Nosotros</h2>
-                <div class="line"></div>
-            </div>
-            
-            <div class="about-grid">
-                <!-- Historia -->
-                <div class="about-info">
-                    <h3>Nuestra Historia</h3>
-                    <p>Soluciones Informáticas JD nace en tiempos de pandemia ante la urgente necesidad de las empresas y profesionales de adaptarse a las nuevas condiciones de teletrabajo y digitalización.</p>
-                    <p>Tras una constante investigación de mercado y capacitación técnica, conformamos un equipo multidisciplinario altamente preparado para agrupar múltiples soluciones en el área de sistemas en un solo canal de atención.</p>
-                    
-                    <div class="stats-mini">
-                        <div class="stat-item">
-                            <span class="number">24/7</span>
-                            <span class="label">Soporte Continuo</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="number">100%</span>
-                            <span class="label">Datos Protegidos</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Conócenos -->
-                <div class="about-video-container">
-                    <h3>Conócenos en Acción</h3>
-                    <div class="video-wrapper">
-                        <!-- Reproductor de video moderno -->
-                        <video controls poster="IMG_SOLUCIONES.jpg" class="custom-video">
-                            <source src="nosotros.mp4" type="video/mp4">
-                            Tu navegador no soporta la reproducción de este video.
-                        </video>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nuestro Equipo -->
-            <div class="team-container">
-                <h3 class="team-title">Nuestro Equipo Especializado</h3>
-                <div class="team-grid">
-                    <!-- José Daniel Portillo -->
-                    <div class="team-card">
-                        <div class="team-avatar">
-                            <i class="fa fa-user-circle-o"></i>
-                        </div>
-                        <div class="team-info">
-                            <h4>José Daniel Portillo</h4>
-                            <p class="role">Técnico Especializado en Sistemas e Infraestructura</p>
-                            <p class="desc">Programador y Profesor en Educación Técnica Profesional. Experto en conectividad, base de datos y desarrollo backend.</p>
-                        </div>
-                    </div>
-
-                    <!-- Sergio Duarte -->
-                    <div class="team-card">
-                        <div class="team-avatar">
-                            <i class="fa fa-user-shield"></i>
-                        </div>
-                        <div class="team-info">
-                            <h4>Sergio Duarte</h4>
-                            <p class="role">Licenciado en Seguridad Informática</p>
-                            <p class="desc">Especialista en auditorías de seguridad, protección de datos, configuración de firewalls perimetrales y redes corporativas.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <h4 style="color: #fff; margin-bottom: 16px;">Herramientas</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+            <li><a href="https://github.com/PortilloLab/it-automation-toolkit" target="_blank" class="text-muted" style="text-decoration: none;">ITAT Repository</a></li>
+            <li><a href="https://github.com/PortilloLab/ds_guardian" target="_blank" class="text-muted" style="text-decoration: none;">DS Guardian Repository</a></li>
+          </ul>
         </div>
-    </section>
+      </div>
 
-    <!-- Sección de Contacto -->
-    <section class="contact-section" id="contacto">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>¿Tienes una emergencia o proyecto en mente?</h2>
-                <div class="line"></div>
-                <p>Contáctanos completando el formulario. Nos pondremos en comunicación en la brevedad.</p>
-            </div>
-            
-            <div class="contact-grid">
-                <!-- Info de contacto -->
-                <div class="contact-info-card">
-                    <h3>Información de Contacto</h3>
-                    <p>Comunícate directamente a nuestras líneas de atención o envíanos un correo.</p>
-                    
-                    <div class="info-list">
-                        <div class="info-item">
-                            <i class="fa fa-phone"></i>
-                            <div class="info-text">
-                                <span>Teléfono Celular:</span>
-                                <strong>+54 3764 - 393390</strong>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fa fa-envelope"></i>
-                            <div class="info-text">
-                                <span>Correo Electrónico:</span>
-                                <strong>jsdnlportillo@gmail.com</strong>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fa fa-clock-o"></i>
-                            <div class="info-text">
-                                <span>Horarios de Atención:</span>
-                                <strong>Lunes a Viernes de 08:00 a 20:00 hs. Soporte de emergencia 24h.</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Soluciones Informáticas JD & PortilloLab. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
 
-                <!-- Formulario de contacto AJAX -->
-                <div class="contact-form-card">
-                    <h3>Envíanos un Mensaje</h3>
-                    
-                    <div id="contact-alert" class="alert d-none"></div>
+  <!-- Floating WhatsApp Button -->
+  <a href="https://api.whatsapp.com/send?phone=543764393390&text=Hola!%20Me%20interesa%20solicitar%20un%20diagn%C3%B3stico%20de%20infraestructura%20IT" target="_blank" class="whatsapp-float" aria-label="Contacto WhatsApp" id="floatWhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
-                    <form id="contact-form" action="procesar_contacto.php" method="POST">
-                        <div class="form-group">
-                            <label for="nombre">Nombre Completo</label>
-                            <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" placeholder="Ej. juan@correo.com" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="mensaje">¿En qué te podemos ayudar?</label>
-                            <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntanos brevemente sobre tu requerimiento..." required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-block" id="btn-submit-contact">
-                            Enviar Mensaje <i class="fa fa-send"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-col brand-col">
-                <a href="#inicio" class="logo">
-                    <img src="favicon_1.ico" alt="Logo">
-                    <span>SOLUCIONES JD</span>
-                </a>
-                <p>Garantizamos el funcionamiento de su infraestructura tecnológica para que pueda centrarse en el crecimiento de su negocio.</p>
-            </div>
-            
-            <div class="footer-col links-col">
-                <h4>Enlaces Rápidos</h4>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#nosotros">Nosotros</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col info-col">
-                <h4>Portal de Clientes</h4>
-                <ul>
-                    <li><a href="login.php">Iniciar Sesión</a></li>
-                    <li><a href="register.php">Registrarse</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>Copyright &copy; 2026 Todos los derechos reservados; Soluciones Informática JD.</p>
-        </div>
-    </footer>
-
-    <!-- Vanilla Javascript -->
-    <script src="main.js"></script>
 </body>
+
 </html>
