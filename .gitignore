@@ -1,0 +1,15 @@
+# Archivos de registro local (correos simulados)
+sent_emails.log
+*.log
+
+# Archivos del Sistema Operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Carpetas temporales y del IDE
+.vscode/
+.idea/
+*.suo
+*.user
