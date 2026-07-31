@@ -137,10 +137,28 @@ require_once __DIR__ . '/config.php';
                     <p>En cualquier sistema de información, lo más valioso son los datos. Garantizamos el resguardo de su información crítica a través de copias de seguridad automáticas y seguras, tanto locales como en la nube, durante todo el año.</p>
                 </div>
 
+                <!-- ITAT Framework -->
+                <div class="service-card" style="border: 1px solid rgba(6, 182, 212, 0.4);">
+                    <div class="service-icon" style="color: #06b6d4;">
+                        <i class="fa fa-terminal"></i>
+                    </div>
+                    <h3>Soporte ITAT (IT Automation)</h3>
+                    <p>Monitoreo preventivo 24/7 y autoreparación automática de servicios (MySQL, Nginx, Docker y Power BI) impulsado por nuestro framework propietario <strong>ITAT</strong>.</p>
+                </div>
+
+                <!-- DS Guardian -->
+                <div class="service-card" style="border: 1px solid rgba(16, 185, 129, 0.4);">
+                    <div class="service-icon" style="color: #10b981;">
+                        <i class="fa fa-shield"></i>
+                    </div>
+                    <h3>Auditoría de Datos (DS Guardian)</h3>
+                    <p>Protección contra Data Leakage, control de calidad QA de datasets e informes analíticos automatizados impulsados por nuestro marco de trabajo <strong>DS Guardian</strong>.</p>
+                </div>
+
                 <!-- Ciberseguridad -->
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fa fa-shield"></i>
+                        <i class="fa fa-lock"></i>
                     </div>
                     <h3>Firewalls y Antivirus</h3>
                     <p>Protegemos la integridad de su infraestructura tecnológica contra amenazas cibernéticas. Implementamos firewalls perimetrales, sistemas antivirus corporativos de última generación y políticas estrictas de control de accesos.</p>
