@@ -1,7 +1,7 @@
 <?php
 /**
  * Panel de Control del Cliente
- * Soluciones Informática JD
+ * Soluciones Informática JD & PortilloLab
  */
 
 require_once __DIR__ . '/config.php';
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
-// Obtener los tickets del cliente actual
+// Obtener los tickets del cliente actual y el estado real de sus servicios
 try {
     $stmt = $pdo->prepare("SELECT * FROM tickets WHERE usuario_id = :usuario_id ORDER BY creado_at DESC");
     $stmt->execute([':usuario_id' => $usuario_id]);
@@ -58,10 +58,23 @@ try {
     $stmt_active = $pdo->prepare("SELECT COUNT(*) FROM tickets WHERE usuario_id = :usuario_id AND estado IN ('abierto', 'en_proceso')");
     $stmt_active->execute([':usuario_id' => $usuario_id]);
     $tickets_activos_count = $stmt_active->fetchColumn();
+
+    // Obtener estado real de los servicios del cliente
+    $stmt_est = $pdo->prepare("SELECT * FROM estado_servicios WHERE usuario_id = :usuario_id");
+    $stmt_est->execute([':usuario_id' => $usuario_id]);
+    $estado_servicios = $stmt_est->fetch() ?: [
+        'estado_respaldo' => 'pendiente',
+        'estado_seguridad' => 'pendiente'
+    ];
+
 } catch (PDOException $e) {
-    error_log("Error de BD al cargar tickets: " . $e->getMessage());
+    error_log("Error de BD al cargar dashboard: " . $e->getMessage());
     $tickets = [];
     $tickets_activos_count = 0;
+    $estado_servicios = [
+        'estado_respaldo' => 'pendiente',
+        'estado_seguridad' => 'pendiente'
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -98,7 +111,7 @@ try {
             <p>Monitorea tus servicios contratados y solicita soporte inmediato.</p>
         </section>
 
-        <!-- Tarjetas de Estado General -->
+        <!-- Tarjetas de Estado General Real -->
         <section class="dashboard-stats-grid">
             <div class="stat-card">
                 <div class="stat-icon icon-blue">
@@ -117,8 +130,16 @@ try {
                 </div>
                 <div class="stat-details">
                     <h3>Estado del Respaldo</h3>
-                    <p class="stat-number">100%</p>
-                    <span class="stat-meta text-green"><i class="fa fa-check-circle"></i> Copia de seguridad activa</span>
+                    <?php if ($estado_servicios['estado_respaldo'] === 'activo'): ?>
+                        <p class="stat-number">Activo</p>
+                        <span class="stat-meta text-green"><i class="fa fa-check-circle"></i> Copia de seguridad activa</span>
+                    <?php elseif ($estado_servicios['estado_respaldo'] === 'atencion'): ?>
+                        <p class="stat-number text-danger">Atención</p>
+                        <span class="stat-meta text-danger"><i class="fa fa-exclamation-triangle"></i> Requiere atención técnica</span>
+                    <?php else: ?>
+                        <p class="stat-number text-muted">Pendiente</p>
+                        <span class="stat-meta text-muted"><i class="fa fa-clock-o"></i> Pendiente de Configuración</span>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -128,8 +149,16 @@ try {
                 </div>
                 <div class="stat-details">
                     <h3>Seguridad de Red</h3>
-                    <p class="stat-number">Activo</p>
-                    <span class="stat-meta text-green"><i class="fa fa-lock"></i> Firewall y Antivirus OK</span>
+                    <?php if ($estado_servicios['estado_seguridad'] === 'activo'): ?>
+                        <p class="stat-number">Activo</p>
+                        <span class="stat-meta text-green"><i class="fa fa-lock"></i> Firewall y Antivirus OK</span>
+                    <?php elseif ($estado_servicios['estado_seguridad'] === 'atencion'): ?>
+                        <p class="stat-number text-danger">Atención</p>
+                        <span class="stat-meta text-danger"><i class="fa fa-exclamation-triangle"></i> Requiere atención técnica</span>
+                    <?php else: ?>
+                        <p class="stat-number text-muted">Pendiente</p>
+                        <span class="stat-meta text-muted"><i class="fa fa-clock-o"></i> Pendiente de Configuración</span>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>

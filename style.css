@@ -69,6 +69,8 @@ body {
 .text-cyan { color: var(--color-secondary) !important; }
 .text-emerald { color: var(--color-success) !important; }
 .text-muted { color: var(--text-muted) !important; }
+.text-green { color: var(--color-success) !important; }
+.text-danger { color: #f87171 !important; }
 .d-none { display: none !important; }
 
 .badge {

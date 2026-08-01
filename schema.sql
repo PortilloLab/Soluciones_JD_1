@@ -2,6 +2,7 @@
 -- Motor de Base de Datos: PostgreSQL / MySQL
 
 -- Eliminar tablas si existen (para facilitar la reinstalación)
+DROP TABLE IF EXISTS estado_servicios;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS mensajes_contacto;
 DROP TABLE IF EXISTS usuarios;
@@ -38,6 +39,14 @@ CREATE TABLE mensajes_contacto (
     servicio VARCHAR(150) DEFAULT 'Consulta General',
     mensaje TEXT NOT NULL,
     creado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4. Tabla de Estado de Servicios por Cliente
+CREATE TABLE estado_servicios (
+    usuario_id INT PRIMARY KEY REFERENCES usuarios(id) ON DELETE CASCADE,
+    estado_respaldo VARCHAR(20) NOT NULL DEFAULT 'pendiente' CHECK (estado_respaldo IN ('pendiente', 'activo', 'atencion')),
+    estado_seguridad VARCHAR(20) NOT NULL DEFAULT 'pendiente' CHECK (estado_seguridad IN ('pendiente', 'activo', 'atencion')),
+    actualizado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Índices para optimizar las búsquedas

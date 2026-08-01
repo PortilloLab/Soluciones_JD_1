@@ -1,7 +1,7 @@
 <?php
 /**
  * Panel de Administración
- * Soluciones Informática JD
+ * Soluciones Informática JD & PortilloLab
  */
 
 require_once __DIR__ . '/config.php';
@@ -37,6 +37,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
+// Procesar actualización del estado de servicios de un cliente
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'actualizar_estado_servicio') {
+    $cliente_id = filter_var($_POST['cliente_id'] ?? 0, FILTER_VALIDATE_INT);
+    $estado_respaldo = sanitize($_POST['estado_respaldo'] ?? 'pendiente');
+    $estado_seguridad = sanitize($_POST['estado_seguridad'] ?? 'pendiente');
+
+    if (!$cliente_id) {
+        $error = 'Cliente no válido.';
+    } elseif (!in_array($estado_respaldo, ['pendiente', 'activo', 'atencion']) || !in_array($estado_seguridad, ['pendiente', 'activo', 'atencion'])) {
+        $error = 'Los estados seleccionados no son válidos.';
+    } else {
+        try {
+            $stmt = $pdo->prepare("
+                INSERT INTO estado_servicios (usuario_id, estado_respaldo, estado_seguridad, actualizado_at) 
+                VALUES (:usuario_id, :respaldo, :seguridad, CURRENT_TIMESTAMP)
+                ON CONFLICT (usuario_id) 
+                DO UPDATE SET estado_respaldo = EXCLUDED.estado_respaldo, 
+                              estado_seguridad = EXCLUDED.estado_seguridad, 
+                              actualizado_at = CURRENT_TIMESTAMP
+            ");
+            $stmt->execute([
+                ':usuario_id' => $cliente_id,
+                ':respaldo' => $estado_respaldo,
+                ':seguridad' => $estado_seguridad
+            ]);
+            $success = 'El estado de los servicios del cliente se actualizó correctamente.';
+        } catch (PDOException $e) {
+            error_log("Error de BD al actualizar estado de servicios admin: " . $e->getMessage());
+            $error = 'Error de base de datos al actualizar los servicios del cliente.';
+        }
+    }
+}
+
 // Obtener todas las solicitudes de soporte de la BD con el nombre y email del cliente
 try {
     $stmt = $pdo->query("
@@ -58,6 +91,23 @@ try {
 } catch (PDOException $e) {
     error_log("Error de BD al cargar mensajes admin: " . $e->getMessage());
     $mensajes = [];
+}
+
+// Obtener clientes registrados y el estado real de sus servicios
+try {
+    $stmt_clientes = $pdo->query("
+        SELECT u.id, u.nombre, u.email, u.usuario, 
+               COALESCE(es.estado_respaldo, 'pendiente') as estado_respaldo,
+               COALESCE(es.estado_seguridad, 'pendiente') as estado_seguridad
+        FROM usuarios u
+        LEFT JOIN estado_servicios es ON u.id = es.usuario_id
+        WHERE u.rol = 'cliente'
+        ORDER BY u.nombre ASC
+    ");
+    $clientes_servicios = $stmt_clientes->fetchAll();
+} catch (PDOException $e) {
+    error_log("Error de BD al cargar clientes admin: " . $e->getMessage());
+    $clientes_servicios = [];
 }
 
 // Contar estadísticas generales
@@ -101,7 +151,7 @@ $mensajes_count = count($mensajes);
     <main class="dashboard-container">
         <section class="dashboard-welcome">
             <h1>Panel de Control de Administración</h1>
-            <p>Gestione tickets de soporte técnico e interactúe con los mensajes recibidos del sitio web público.</p>
+            <p>Gestione tickets de soporte técnico, estado de servicios por cliente e interactúe con los mensajes recibidos.</p>
         </section>
 
         <!-- Tarjetas de Estadísticas -->
@@ -143,6 +193,68 @@ $mensajes_count = count($mensajes);
 
         <!-- Layout de Tablas -->
         <div class="dashboard-tabs-container">
+            
+            <!-- Gestión de Estado de Servicios por Cliente -->
+            <div class="dashboard-section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <h2>Gestión de Estado de Servicios por Cliente</h2>
+                </div>
+
+                <?php if (empty($clientes_servicios)): ?>
+                    <div class="empty-state">
+                        <i class="fa fa-users"></i>
+                        <p>No hay clientes registrados en el sistema actualmente.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="table-responsive">
+                        <table class="dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Estado de Respaldo</th>
+                                    <th>Seguridad de Red</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($clientes_servicios as $cli): ?>
+                                    <tr>
+                                        <td>
+                                            <div class="ticket-title"><?php echo htmlspecialchars($cli['nombre']); ?></div>
+                                            <div class="ticket-desc"><?php echo htmlspecialchars($cli['email']); ?> (<?php echo htmlspecialchars($cli['usuario']); ?>)</div>
+                                        </td>
+                                        <form action="admin.php" method="POST">
+                                            <input type="hidden" name="action" value="actualizar_estado_servicio">
+                                            <input type="hidden" name="cliente_id" value="<?php echo $cli['id']; ?>">
+                                            <td>
+                                                <select name="estado_respaldo">
+                                                    <option value="pendiente" <?php echo $cli['estado_respaldo'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
+                                                    <option value="activo" <?php echo $cli['estado_respaldo'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
+                                                    <option value="atencion" <?php echo $cli['estado_respaldo'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="estado_seguridad">
+                                                    <option value="pendiente" <?php echo $cli['estado_seguridad'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
+                                                    <option value="activo" <?php echo $cli['estado_seguridad'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
+                                                    <option value="atencion" <?php echo $cli['estado_seguridad'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-save"></i> Guardar
+                                                </button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tickets de Soporte -->
             <div class="dashboard-section">
                 <div class="section-header">
                     <h2>Tickets de Soporte de Clientes</h2>
