@@ -1,5 +1,5 @@
--- Esquema de Base de Datos para Soluciones Informática JD
--- Motor de Base de Datos: PostgreSQL
+-- Esquema de Base de Datos para Soluciones Informática JD & PortilloLab
+-- Motor de Base de Datos: PostgreSQL / MySQL
 
 -- Eliminar tablas si existen (para facilitar la reinstalación)
 DROP TABLE IF EXISTS tickets;
@@ -35,6 +35,7 @@ CREATE TABLE mensajes_contacto (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
+    servicio VARCHAR(150) DEFAULT 'Consulta General',
     mensaje TEXT NOT NULL,
     creado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -44,14 +45,6 @@ CREATE INDEX idx_tickets_usuario ON tickets(usuario_id);
 CREATE INDEX idx_tickets_estado ON tickets(estado);
 CREATE INDEX idx_usuarios_usuario ON usuarios(usuario);
 
--- Insertar Datos de Prueba / Semilla
--- Contraseña de administrador predeterminada: admin123
--- Hash bcrypt generado para 'admin123': $2y$10$TRWMRganH25vExPnI8Reu.ITy2Vqo7nvaCwwuhTY86EDyr3dEUvhy
-INSERT INTO usuarios (nombre, email, usuario, password_hash, rol) VALUES
-('Administrador JD', 'jsdnlportillo@gmail.com', 'admin', '$2y$10$TRWMRganH25vExPnI8Reu.ITy2Vqo7nvaCwwuhTY86EDyr3dEUvhy', 'admin'),
-('Cliente de Prueba', 'cliente@prueba.com', 'cliente', '$2y$10$TRWMRganH25vExPnI8Reu.ITy2Vqo7nvaCwwuhTY86EDyr3dEUvhy', 'cliente');
-
--- Insertar algunos tickets de prueba
-INSERT INTO tickets (usuario_id, titulo, descripcion, prioridad, estado) VALUES
-(2, 'Problema de conectividad en oficina', 'No nos funciona el router wifi de la sala de reuniones principal.', 'alta', 'abierto'),
-(2, 'Actualización de antivirus requerida', 'Necesitamos actualizar la licencia del antivirus corporativo en 3 terminales.', 'baja', 'resuelto');
+-- NOTA DE SEGURIDAD:
+-- Las cuentas de administración se crean de forma segura mediante el script CLI:
+-- php crear_admin.php

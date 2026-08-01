@@ -79,7 +79,13 @@ cd Soluciones_JD_1
 psql -U tu_usuario -d tu_base_datos -f schema.sql
 ```
 
-### 3. Iniciar el Servidor de Desarrollo:
+### 3. Crear el Usuario Administrador (CLI Seguro):
+```bash
+php crear_admin.php
+```
+*Sigue las instrucciones interactivas en terminal para definir el usuario y contraseña del Administrador.*
+
+### 4. Iniciar el Servidor de Desarrollo:
 ```bash
 php -S localhost:8000
 ```

@@ -1,7 +1,7 @@
 <?php
 /**
  * Procesador del Formulario de Contacto
- * Soluciones Informática JD
+ * Soluciones Informática JD & PortilloLab
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -21,13 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Obtener y sanitizar entradas
 $nombre = isset($_POST['nombre']) ? sanitize($_POST['nombre']) : '';
 $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
+$servicio = isset($_POST['servicio']) ? sanitize($_POST['servicio']) : 'Consulta General';
 $mensaje = isset($_POST['mensaje']) ? sanitize($_POST['mensaje']) : '';
 
 // Validaciones del lado del servidor
 if (empty($nombre) || empty($email) || empty($mensaje)) {
     echo json_encode([
         'success' => false,
-        'message' => 'Por favor, complete todos los campos obligatorios.'
+        'message' => 'Por favor, complete todos los campos obligatorios (Nombre, Email y Mensaje).'
     ]);
     exit;
 }
@@ -41,16 +42,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 try {
-    // 1. Guardar en la Base de Datos PostgreSQL
-    $stmt = $pdo->prepare("INSERT INTO mensajes_contacto (nombre, email, mensaje) VALUES (:nombre, :email, :mensaje)");
+    // 1. Guardar en la Base de Datos (con columna servicio)
+    $stmt = $pdo->prepare("INSERT INTO mensajes_contacto (nombre, email, servicio, mensaje) VALUES (:nombre, :email, :servicio, :mensaje)");
     $stmt->execute([
         ':nombre' => $nombre,
         ':email' => $email,
+        ':servicio' => $servicio,
         ':mensaje' => $mensaje
     ]);
 
     // 2. Construir y enviar el correo de notificación al administrador
-    $asunto = "Nuevo mensaje de contacto de: $nombre";
+    $asunto = "Nuevo mensaje de contacto ($servicio): $nombre";
     $cuerpo_html = "
     <html>
     <head>
@@ -77,6 +79,9 @@ try {
                 </div>
                 <div class='field'>
                     <span class='label'>Correo Electrónico:</span> <span>$email</span>
+                </div>
+                <div class='field'>
+                    <span class='label'>Servicio de Interés:</span> <span>$servicio</span>
                 </div>
                 <div class='field'>
                     <span class='label'>Fecha:</span> <span>" . date('d/m/Y H:i:s') . "</span>

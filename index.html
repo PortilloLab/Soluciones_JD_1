@@ -251,20 +251,20 @@
 
         <!-- Contact Form -->
         <div class="contact-form">
-          <form id="auditForm">
+          <form id="auditForm" action="procesar_contacto.php" method="POST">
             <div class="form-group">
               <label for="formName" class="form-label">Nombre Completo / Empresa</label>
-              <input type="text" id="formName" class="form-input" placeholder="Ej. Carlos Gómez - Empresa X" required>
+              <input type="text" id="formName" name="nombre" class="form-input" placeholder="Ej. Carlos Gómez - Empresa X" required>
             </div>
 
             <div class="form-group">
               <label for="formEmail" class="form-label">Correo Electrónico</label>
-              <input type="email" id="formEmail" class="form-input" placeholder="carlos@empresa.com" required>
+              <input type="email" id="formEmail" name="email" class="form-input" placeholder="carlos@empresa.com" required>
             </div>
 
             <div class="form-group">
               <label for="formService" class="form-label">Servicio de Interés</label>
-              <select id="formService" class="form-select">
+              <select id="formService" name="servicio" class="form-select">
                 <option value="Auditoría Preventiva ITAT">Auditoría Preventiva ITAT (Soporte IT)</option>
                 <option value="Auditoría de Datos DS Guardian">Auditoría & Gobierno de Datos (DS Guardian)</option>
                 <option value="Conectividad y Redes">Conectividad, Firewalls y Redes</option>
@@ -274,7 +274,7 @@
 
             <div class="form-group">
               <label for="formMessage" class="form-label">Mensaje o Detalle del Requerimiento</label>
-              <textarea id="formMessage" class="form-textarea" rows="4" placeholder="Cuéntanos brevemente sobre la infraestructura de tu empresa..."></textarea>
+              <textarea id="formMessage" name="mensaje" class="form-textarea" rows="4" placeholder="Cuéntanos brevemente sobre la infraestructura de tu empresa..." required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%;" id="btnSubmitForm">

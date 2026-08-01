@@ -1,5 +1,5 @@
 /**
- * Lógica de Interacciones e Invocación de Terminal (Vanilla JavaScript)
+ * Lógica de Interacciones, Terminal Animada y Conexión Backend (AJAX/Fetch)
  * Soluciones Informática JD & PortilloLab
  */
 
@@ -59,36 +59,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 3. Envío Asíncrono del Formulario de Auditoría
+    // 3. Envío Asíncrono Real del Formulario vía fetch()
     // ==========================================
     const auditForm = document.getElementById('auditForm');
     const formResponse = document.getElementById('formResponse');
     const btnSubmit = document.getElementById('btnSubmitForm');
 
     if (auditForm) {
-        auditForm.addEventListener('submit', (e) => {
+        auditForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const originalBtnText = btnSubmit ? btnSubmit.innerHTML : 'Enviar Solicitud';
 
             if (btnSubmit) {
                 btnSubmit.disabled = true;
                 btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando Solicitud...';
             }
 
-            setTimeout(() => {
+            if (formResponse) {
+                formResponse.style.display = 'none';
+                formResponse.className = '';
+            }
+
+            try {
+                const formData = new FormData(auditForm);
+                const response = await fetch('procesar_contacto.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = '<i class="fa-solid fa-check"></i> ¡Solicitud Enviada!';
+                        btnSubmit.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                        setTimeout(() => {
+                            btnSubmit.innerHTML = originalBtnText;
+                            btnSubmit.style.background = '';
+                        }, 4000);
+                    }
+
+                    if (formResponse) {
+                        formResponse.style.display = 'block';
+                        formResponse.className = 'alert alert-success';
+                        formResponse.style.marginTop = '15px';
+                        formResponse.style.padding = '12px 16px';
+                        formResponse.style.borderRadius = '8px';
+                        formResponse.style.background = 'rgba(16, 185, 129, 0.15)';
+                        formResponse.style.border = '1px solid #10b981';
+                        formResponse.style.color = '#34d399';
+                        formResponse.innerHTML = '✨ ' + data.message;
+                    }
+
+                    auditForm.reset();
+                } else {
+                    throw new Error(data.message || 'Error en el procesado del servidor.');
+                }
+
+            } catch (error) {
                 if (btnSubmit) {
                     btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="fa-solid fa-check"></i> ¡Solicitud Enviada con Éxito!';
-                    btnSubmit.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    btnSubmit.innerHTML = originalBtnText;
                 }
 
                 if (formResponse) {
                     formResponse.style.display = 'block';
-                    formResponse.className = 'alert alert-success';
-                    formResponse.innerHTML = '✨ ¡Gracias! Hemos recibido tu solicitud. Nos pondremos en contacto contigo en breve para coordinar el diagnóstico.';
+                    formResponse.className = 'alert alert-danger';
+                    formResponse.style.marginTop = '15px';
+                    formResponse.style.padding = '12px 16px';
+                    formResponse.style.borderRadius = '8px';
+                    formResponse.style.background = 'rgba(239, 68, 68, 0.15)';
+                    formResponse.style.border = '1px solid #ef4444';
+                    formResponse.style.color = '#f87171';
+                    formResponse.innerHTML = '❌ ' + (error.message || 'Error de conexión. Intente nuevamente.');
                 }
-
-                auditForm.reset();
-            }, 1200);
+            }
         });
     }
 

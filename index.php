@@ -291,7 +291,7 @@ require_once __DIR__ . '/config.php';
 
             <div class="form-group">
               <label for="formMessage" class="form-label">Mensaje o Detalle del Requerimiento</label>
-              <textarea id="formMessage" name="mensaje" class="form-textarea" rows="4" placeholder="Cuéntanos brevemente sobre la infraestructura de tu empresa..."></textarea>
+              <textarea id="formMessage" name="mensaje" class="form-textarea" rows="4" placeholder="Cuéntanos brevemente sobre la infraestructura de tu empresa..." required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%;" id="btnSubmitForm">
