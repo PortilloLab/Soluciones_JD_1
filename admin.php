@@ -220,32 +220,32 @@ $mensajes_count = count($mensajes);
                                 <?php foreach ($clientes_servicios as $cli): ?>
                                     <tr>
                                         <td>
+                                            <form id="form_cli_<?php echo $cli['id']; ?>" action="admin.php" method="POST">
+                                                <input type="hidden" name="action" value="actualizar_estado_servicio">
+                                                <input type="hidden" name="cliente_id" value="<?php echo $cli['id']; ?>">
+                                            </form>
                                             <div class="ticket-title"><?php echo htmlspecialchars($cli['nombre']); ?></div>
                                             <div class="ticket-desc"><?php echo htmlspecialchars($cli['email']); ?> (<?php echo htmlspecialchars($cli['usuario']); ?>)</div>
                                         </td>
-                                        <form action="admin.php" method="POST">
-                                            <input type="hidden" name="action" value="actualizar_estado_servicio">
-                                            <input type="hidden" name="cliente_id" value="<?php echo $cli['id']; ?>">
-                                            <td>
-                                                <select name="estado_respaldo">
-                                                    <option value="pendiente" <?php echo $cli['estado_respaldo'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
-                                                    <option value="activo" <?php echo $cli['estado_respaldo'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
-                                                    <option value="atencion" <?php echo $cli['estado_respaldo'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="estado_seguridad">
-                                                    <option value="pendiente" <?php echo $cli['estado_seguridad'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
-                                                    <option value="activo" <?php echo $cli['estado_seguridad'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
-                                                    <option value="atencion" <?php echo $cli['estado_seguridad'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-save"></i> Guardar
-                                                </button>
-                                            </td>
-                                        </form>
+                                        <td>
+                                            <select name="estado_respaldo" form="form_cli_<?php echo $cli['id']; ?>">
+                                                <option value="pendiente" <?php echo $cli['estado_respaldo'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
+                                                <option value="activo" <?php echo $cli['estado_respaldo'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
+                                                <option value="atencion" <?php echo $cli['estado_respaldo'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="estado_seguridad" form="form_cli_<?php echo $cli['id']; ?>">
+                                                <option value="pendiente" <?php echo $cli['estado_seguridad'] === 'pendiente' ? 'selected' : ''; ?>>Pendiente de Configuración</option>
+                                                <option value="activo" <?php echo $cli['estado_seguridad'] === 'activo' ? 'selected' : ''; ?>>Activo (Protegido)</option>
+                                                <option value="atencion" <?php echo $cli['estado_seguridad'] === 'atencion' ? 'selected' : ''; ?>>Requiere Atención</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="submit" form="form_cli_<?php echo $cli['id']; ?>" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-save"></i> Guardar
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
