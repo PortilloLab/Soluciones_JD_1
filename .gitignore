@@ -1,3 +1,6 @@
+# Archivos de configuración local y credenciales
+config.php
+
 # Archivos de registro local (correos simulados)
 sent_emails.log
 *.log

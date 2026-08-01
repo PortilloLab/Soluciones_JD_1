@@ -74,7 +74,13 @@ git clone https://github.com/PortilloLab/Soluciones_JD_1.git
 cd Soluciones_JD_1
 ```
 
-### 2. Importar la Base de Datos:
+### 2. Configurar Variables de Entorno:
+```bash
+cp config.example.php config.php
+```
+*Edita `config.php` y completa las credenciales de tu base de datos PostgreSQL/MySQL.*
+
+### 3. Importar la Base de Datos:
 ```bash
 psql -U tu_usuario -d tu_base_datos -f schema.sql
 ```
