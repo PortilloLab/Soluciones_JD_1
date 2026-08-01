@@ -62,6 +62,14 @@ do {
 
 $hash = password_hash($password, PASSWORD_BCRYPT);
 
+// Verificar si el usuario o email ya existen para dar un mensaje claro
+$checkStmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = :email OR usuario = :usuario");
+$checkStmt->execute([':email' => $email, ':usuario' => $usuario]);
+if ($checkStmt->fetch()) {
+    echo "⚠️ Error: El correo ($email) o el nombre de usuario ($usuario) ya está registrado en la base de datos." . PHP_EOL;
+    exit(1);
+}
+
 try {
     $stmt = $pdo->prepare("INSERT INTO usuarios (nombre, email, usuario, password_hash, rol) VALUES (:nombre, :email, :usuario, :hash, 'admin')");
     $stmt->execute([
